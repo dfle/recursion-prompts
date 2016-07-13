@@ -5,20 +5,83 @@
 // Example:  5! = 5 x 4 x 3 x 2 x 1 = 120
 // factorial(5);  // 120
 var factorial = function(n) {
+  // If n is negative, it doesn't have a factorial.
+  if (n < 0) {
+    return null;
+  }
+
+  // If n is zero, its factorial is one.
+  // Each call returns to its caller and the recursion terminates.
+  if (n === 0) {
+    return 1;
+  }
+
+  // If the number is neither illegal nor zero, call factorial() again,
+  // this time passing in a smaller number.
+  return n * factorial(n - 1);
 };
 
 // 2. Compute the sum of an array of integers.
 // Example:  sum([1, 2, 3, 4, 5, 6]);  // 21
 var sum = function(array) {
+  var copy = array.slice();
+  var num = copy.pop();
+
+  // Recursion terminates when the array is empty.
+  // If the input array is empty, return 0.
+  if (copy.length === 0) {
+    return num || 0;
+  }
+
+  // Call sum() while there are items in the copied array.
+  return num + sum(copy);
 };
 
 // 3. Sum all numbers in an array containing nested arrays.
 // Example: arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+  var copy = array.slice();
+  var num = copy.shift();
+
+  // Recursion terminates and returns zero when the array is empty.
+  // If the input array is empty, return zero.
+  // If the shifted value is a number, return it.
+  if (copy.length === 0 && !Array.isArray(num)) {
+    return num || 0;
+  }
+
+  // If the shifted value is an array, sum up its contents then return it.
+  if (Array.isArray(num)) {
+    var sum = 0;
+    for (var i = 0; i < num.length; i++){
+      // Call arraySum() on nested arrays.
+      if (Array.isArray(num[i])) {
+        sum += arraySum(num[i]);
+      } else {
+        sum += num[i];
+      }
+    }
+    return sum + arraySum(copy);
+  }
+
+  // Call arraySum() while there are items in the copied array.
+  return num + arraySum(copy);
 };
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+  n = n < 0 ? -n : n;
+
+  // Recursion terminates when n is zero or one.
+  // n is even if tail-n is zero; odd if one.
+  if (n === 0) {
+    return true;
+  } else if (n === 1) {
+    return false;
+  }
+
+  // Call isEven(), subtracting 2 from n, until n equals zero or one.
+  return isEven(n - 2);
 };
 
 // 5. Sum all integers below a given integer.
