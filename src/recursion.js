@@ -70,6 +70,7 @@ var arraySum = function(array) {
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+  // Get the absolute value of n.
   n = n < 0 ? -n : n;
 
   // Recursion terminates when n is zero or one.
@@ -88,11 +89,47 @@ var isEven = function(n) {
 // sumBelow(10); // 45
 // sumBelow(7); // 21
 var sumBelow = function(n) {
+  // Recursion terminates when n is zero.
+  if (n === 0) { return 0; }
+
+  // Call sumBelow(), passing in a smaller number for positive integers.
+  if (n > 0) {
+    return (n-1) + sumBelow(n-1);
+  } else {
+    // Cal sumBelow(), passing in a greater value for negative integers.
+    return (n+1) + sumBelow(n+1);
+  }
 };
 
 // 6. Get the integers in range (x, y).
 // Example:  range(2, 9);  // [3, 4, 5, 6, 7, 8]
 var range = function(x, y) {
+  var results = [];
+
+  // Return an empty array when if no integers are in range.
+  // Both values are equivalent, or are only separated by one.
+  if (x === y) {
+    return [];
+  }
+
+  // If x is less than y, increment each successive value,
+  // otherwise decrement towards the end range.
+  if (x < y) {
+    // Recursion terminates when x is one less than y for positive integers.
+    if (x === y-1) {
+      return results;
+    }
+    // Insert a value into results
+    results.push(x+1);
+    // Call range() and concat each new value to results.
+    return results.concat(range(x+1, y));
+  } else {
+    if (x === y+1) {
+      return results;
+    }
+    results.push(x-1);
+    return results.concat(range(x-1, y));
+  }
 };
 
 // 7. Compute the exponent of a number.
