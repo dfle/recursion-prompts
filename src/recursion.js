@@ -154,7 +154,6 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
-
   if (n < 1) {
     return false;
     // one is 2^0.
@@ -167,10 +166,31 @@ var powerOfTwo = function(n) {
 
 // 9. Write a function that accepts a string a reverses it.
 var reverse = function(string) {
+  // Recursion terminates when only one letter remains.
+  if (string.length <= 0) {
+    return string;
+  }
+  // Call reverse() passing in the second letter on and concatenate the first.
+  return reverse(string.substr(1)) + string[0];
 };
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+  // Ignore spaces and capital letters.
+  var formattedString = '';
+  for (var i = 0; i < string.length; i++) {
+    if (string.charAt(i) !== ' ') {
+        formattedString += string.charAt(i).toLowerCase();
+    }
+  }
+
+  // If one or no letters remain, the string is a palindrome.
+  // Accounts for strings with odd and even lengths.
+  if (formattedString.length <= 1) { return true; }
+
+  // Compare the first and last letters in a string. Slice them off
+  // and pass in the remaining letters to palindrome().
+  return formattedString[0] === formattedString[formattedString.length-1] && palindrome(formattedString.slice(1,-1));
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
