@@ -265,6 +265,16 @@ var divide = function(x, y) {
 // http://www.cse.wustl.edu/~kjg/cse131/Notes/Recursion/recursion.html
 // https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
 var gcd = function(x, y) {
+  // Dijkstra's algorithm
+  if (x < 0 || y < 0) { return null; }
+
+  if (x === y) {
+    return x;
+  } else if (x > y) {
+    return gcd(x-y, y);
+  } else {
+    return gcd(x, y-x);
+  }
 };
 
 // 15. Write a function that compares each character of two strings and returns true if
@@ -429,11 +439,21 @@ var nthFibo = function(n) {
 // var words = ['i', 'am', 'learning', 'recursion'];
 // capitalizedWords(words); // ['I', 'AM', 'LEARNING', 'RECURSION']
 var capitalizeWords = function(input) {
+  var result = [];
+  if (input.length === 0) {
+    return result;
+  }
+  return [input[0].toUpperCase()].concat(capitalizeWords(input.slice(1)));
 };
 
 // 27. Given an array of strings, capitalize the first letter of each index.
 // capitalizeFirst(['car', 'poop', 'banana']); // ['Car', 'Poop', 'Banana']
 var capitalizeFirst = function(array) {
+  var result = [];
+  if (array.length === 0) {
+    return result;
+  }
+  return [array[0].charAt(0).toUpperCase() + array[0].slice(1)].concat(capitalizeFirst(array.slice(1)));
 };
 
 // 28. Return the sum of all even numbers in an object containing nested objects.
@@ -446,6 +466,18 @@ var capitalizeFirst = function(array) {
 // };
 // nestedEvenSum(obj1); // 10
 var nestedEvenSum = function(obj) {
+var sum = 0;
+
+  for (var prop in obj) {
+    if (obj[prop] % 2 === 0) {
+      sum += obj[prop];
+    }
+    if (typeof obj[prop] === 'object') {
+      sum += nestedEvenSum(obj[prop]);
+    }
+  }
+
+  return sum;
 };
 
 // 29. Flatten an array containing nested arrays.
