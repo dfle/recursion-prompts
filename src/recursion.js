@@ -417,7 +417,8 @@ var replaceKeysInObj = function(obj, key, newKey) {
 // Note:  The 0 is not counted.
 var fibonacci = function(n) {
 
-  if (n === 0 || n < 0) { return null;
+  if (n === 0 || n < 0) {
+    return null;
   } else if (n === 1) {
     return [0,1];
   } else {
@@ -433,6 +434,15 @@ var fibonacci = function(n) {
 // nthFibo(7); // 13
 // nthFibo(3); // 2
 var nthFibo = function(n) {
+  if (n < 0) { return null; }
+
+  if (n === 0) {
+    return 0;
+  } else if (n === 1) {
+    return 1;
+  } else {
+    return nthFibo(n-1) + nthFibo(n-2);
+  }
 };
 
 // 26. Given an array of words, return a new array containing each word capitalized.
@@ -466,7 +476,7 @@ var capitalizeFirst = function(array) {
 // };
 // nestedEvenSum(obj1); // 10
 var nestedEvenSum = function(obj) {
-var sum = 0;
+  var sum = 0;
 
   for (var prop in obj) {
     if (obj[prop] % 2 === 0) {
@@ -482,7 +492,18 @@ var sum = 0;
 
 // 29. Flatten an array containing nested arrays.
 // Example: flatten([1,[2],[3,[[4]]],5]); // [1,2,3,4,5]
-var flatten = function(arrays) {
+var flatten = function(arrays, item) {
+  var result = [];
+
+  for (var i = 0; i < arrays.length; i++) {
+    if (Array.isArray(arrays[i])) {
+      result = result.concat(flatten(arrays[i]));
+    } else {
+      result.push(arrays[i]);
+    }
+  }
+
+  return result;
 };
 
 // 30. Given a string, return an object containing tallies of each letter.
