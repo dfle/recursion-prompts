@@ -250,15 +250,6 @@ var divide = function(x, y) {
   if (y === 0) { return NaN; }
   if (x === 0) { return 0; }
   if (y === 1) { return x; }
-
-  if (x < 0 && y < 0) {
-    if (-x < -y) {}
-  } else if (x < 0) {
-    if (-x < y) {}
-  } else if (x > 0) {
-    if (x < y) {}
-  }
-
 };
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers.  The GCD of two
@@ -511,6 +502,19 @@ var flatten = function(arrays, item) {
 // 30. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {'p':1, 'o':2, 't':2, 'a':1}
 var letterTally = function(str, obj) {
+  obj = obj || {};
+
+  if (str.length === 0) {
+    return obj;
+  }
+
+  if (str.charAt(0) in obj) {
+    obj[str.charAt(0)]++;
+  } else {
+    obj[str.charAt(0)] = 1;
+  }
+
+  return letterTally(str.slice(1), obj);
 };
 
 // 31. Eliminate consecutive duplicates in a list.  If the list contains repeated
@@ -518,13 +522,34 @@ var letterTally = function(str, obj) {
 // elements should not be changed.
 // Example: compress([1, 2, 2, 3, 4, 4, 5, 5, 5]) // [1, 2, 3, 4, 5]
 // Example: compress([1, 2, 2, 3, 4, 4, 2, 5, 5, 5, 4, 4]) // [1, 2, 3, 4, 2, 5, 4]
-var compress = function(list) {
+var compress = function(list, result) {
+  result = result || [];
+
+  if (list.length === 0) {
+    return result
+  }
+
+  if (list[0] !== result[result.length-1]) {
+    result.push(list[0]);
+  }
+
+  return compress(list.slice(1), result);
 };
 
 // 32. Augument every element in a list with a new value where each element is an array
 // itself.
 // Example: augmentElements([[],[3],[7]], 5); // [[5],[3,5],[7,5]]
-var augmentElements = function(array, aug) {
+var augmentElements = function(array, aug, result) {
+  result = result || [];
+
+  if (array.length === 0) {
+    return result;
+  }
+  
+  array[0].push(aug);
+  result.push(array[0]);
+
+  return augmentElements(array.slice(1), aug, result);
 };
 
 // 33. Reduce a series of zeroes to a single 0.
