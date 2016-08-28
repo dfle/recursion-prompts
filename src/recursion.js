@@ -545,7 +545,7 @@ var augmentElements = function(array, aug, result) {
   if (array.length === 0) {
     return result;
   }
-  
+
   array[0].push(aug);
   result.push(array[0]);
 
@@ -555,14 +555,44 @@ var augmentElements = function(array, aug, result) {
 // 33. Reduce a series of zeroes to a single 0.
 // minimizeZeroes([2,0,0,0,1,4]) // [2,0,1,4]
 // minimizeZeroes([2,0,0,0,1,0,0,4]) // [2,0,1,0,4]
-var minimizeZeroes = function(array) {
+var minimizeZeroes = function(array, prevItem, result) {
+  result = result || [];
+  prevItem = prevItem || 0;
+
+  if (array.length === 0) {
+    return result;
+  }
+
+  if (array[0] !== prevItem) {
+    result.push(array[0]);
+  }
+  prevItem = array[0];
+  return minimizeZeroes(array.slice(1), prevItem, result);
 };
 
 // 34. Alternate the numbers in an array between positive and negative regardless of
 // their original sign.  The first number in the index always needs to be positive.
 // alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
 // alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
-var alternateSign = function(array) {
+var alternateSign = function(array, sign, result) {
+  result = result || [];
+  sign = sign || 1;
+
+  if (array.length === 0) {
+    return result;
+  }
+
+  if (array[0] < 0) {
+    sign = -sign;
+  }
+
+  result.push(array[0] * sign);
+
+  if (array[0] > 0) {
+    sign = -sign;
+  }
+
+  return alternateSign(array.slice(1), sign, result);
 };
 
 // 35. Given a string, return a string with digits converted to their word equivalent.
